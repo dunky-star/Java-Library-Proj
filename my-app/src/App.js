@@ -1,31 +1,19 @@
 import "./App.css";
+import TodoTable from "./components/TodoTable";
 
 function App() {
+  const todos = [
+    { rowNumber: 1, rowDescription: "Feed Puppy", rowAssigned: " User 1" },
+    { rowNumber: 2, rowDescription: "Hair Cut", rowAssigned: " User 2" },
+    { rowNumber: 3, rowDescription: "Water Plants", rowAssigned: " User 1" },
+    { rowNumber: 4, rowDescription: "Make Dinner", rowAssigned: " User 4" },
+  ];
   return (
-    <div>
-      <div>You Todo's</div>
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Description</th>
-              <th scope="col">Assigned</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Feed Dog</td>
-              <td>Eric</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Get haircut</td>
-              <td>Eric</td>
-            </tr>
-          </tbody>
-        </table>
+    <div className="mt-5 container">
+      <div className="card">
+        <div className="card-header">Your Todo's</div>
+        <div className="card-body"></div>
+        <TodoTable todos={todos} />
       </div>
     </div>
   );
