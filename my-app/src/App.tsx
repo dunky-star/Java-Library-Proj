@@ -1,6 +1,14 @@
 import "./App.css";
-import { Navbar } from "./layouts/NavbarAndFooter/navbar";
+import { HomePage } from "./layouts/HomePage/HomePage";
+import { Footer } from "./layouts/NavbarAndFooter/Footer";
+import { Navbar } from "./layouts/NavbarAndFooter/Navbar";
 
 export const App = () => {
-  return <Navbar />;
+  return (
+    <div>
+      <Navbar />
+      <HomePage />
+      <Footer />
+    </div>
+  );
 };
