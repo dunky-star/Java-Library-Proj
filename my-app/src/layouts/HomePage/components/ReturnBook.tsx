@@ -1,4 +1,4 @@
-import bookImage from "./../../Images/BooksImages/book-code-1000.png";
+import bookImage from "./../../../Images/BooksImages/book-code-1000.png";
 
 export const ReturnBook = () => {
   return (
