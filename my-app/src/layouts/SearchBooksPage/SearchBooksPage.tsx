@@ -25,21 +25,14 @@ export const SearchBooksPage = () => {
         throw new Error("Something went wrong");
       }
 
-      type TEmbedded = {
-        books: BookModel[];
-      };
+      const responseJson = await response.json();
 
-      type TResponse = {
-        page: any;
-        _embedded: TEmbedded;
-      };
-      const responseJson: TResponse = await response.json();
       const responseData = responseJson._embedded.books;
+
+      const loadedBooks: BookModel[] = []; // Proper array declaration
 
       setTotalAmountOfBooks(responseJson.page.totalElements);
       setTotalPages(responseJson.page.totalPages);
-
-      const loadedBooks: BookModel[] = []; // Proper array declaration
 
       for (const key in responseData) {
         loadedBooks.push({
@@ -57,9 +50,13 @@ export const SearchBooksPage = () => {
       setIsLoading(false);
     };
 
-    fetchBooks().catch((error: any) => {
+    fetchBooks().catch((error: unknown) => {
       setIsLoading(false);
-      setHttpError(error.message);
+      if (error instanceof Error) {
+        setHttpError(error.message);
+      } else {
+        setHttpError(String(error));
+      }
     });
   }, [currentPage]);
 
