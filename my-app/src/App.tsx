@@ -1,3 +1,4 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { HomePage } from "./layouts/HomePage/HomePage";
 import { Footer } from "./layouts/NavbarAndFooter/Footer";
@@ -8,8 +9,12 @@ export const App = () => {
   return (
     <div>
       <Navbar />
-      <HomePage />
-      <SearchBooksPage />
+
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/search" element={<SearchBooksPage />} />
+      </Routes>
+
       <Footer />
     </div>
   );

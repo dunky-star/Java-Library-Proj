@@ -70,7 +70,7 @@ export const SearchBooksPage = () => {
         setHttpError(String(error));
       }
     });
-    //window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, [currentPage, searchUrl]);
 
   if (isLoading) {
