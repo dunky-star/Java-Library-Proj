@@ -2,6 +2,7 @@ import { ReturnBook } from "./ReturnBook";
 import { useEffect, useState } from "react";
 import { BookModel } from "./../../../models/BookModel";
 import { SpinnerLoading } from "../../utils/SpinnerLoading";
+import { Link } from "react-router-dom";
 
 export const Carousel = () => {
   const [books, setBook] = useState<BookModel[]>([]); // Use BookModel[] for type
@@ -139,6 +140,11 @@ export const Carousel = () => {
         <div className="row d-flex justify-content-center align-items-center">
           <ReturnBook book={books[7]} key={books[7].id} />
         </div>
+      </div>
+      <div className="homepage-carousel-title mt-3">
+        <Link className="btn btn-outline-secondary btn-lg" to="/search">
+          View More
+        </Link>
       </div>
     </div>
   );

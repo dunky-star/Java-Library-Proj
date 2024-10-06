@@ -7,14 +7,14 @@ import { SearchBooksPage } from "./layouts/SearchBooksPage/SearchBooksPage";
 
 export const App = () => {
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
       <Navbar />
-
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/search" element={<SearchBooksPage />} />
-      </Routes>
-
+      <div className="flex-grow-1">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/search" element={<SearchBooksPage />} />
+        </Routes>
+      </div>
       <Footer />
     </div>
   );
