@@ -4,11 +4,18 @@ import { SpinnerLoading } from "../utils/SpinnerLoading";
 import bookImage from "./../../images/BooksImages/book-code-1000.png";
 import { StarsReview } from "../utils/StarsReview";
 import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
+import { ReviewModel } from "../../models/ReviewModel";
+import { LatestReviews } from "./LatestReviews";
 
 export const BookCheckoutPage = () => {
   const [book, setBook] = useState<BookModel>();
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState<string | null>(null); // Specify that httpError can be a string or null
+
+  // Review State
+  const [reviews, setReviews] = useState<ReviewModel[]>([]);
+  const [isLoadingReview, setIsLoadingReview] = useState(true);
+  const [totalStars, setTotalStars] = useState<number>(0);
 
   const bookId = window.location.pathname.split("/")[2];
 
@@ -49,7 +56,59 @@ export const BookCheckoutPage = () => {
     });
   }, []);
 
-  if (isLoading) {
+  useEffect(() => {
+    const fetchBookReviews = async () => {
+      const reviewUrl: string = `http://localhost:9191/api/reviews/search/findByBookId?bookId=${bookId}`;
+
+      const responseReviews = await fetch(reviewUrl);
+
+      if (!responseReviews.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      const responseJsonReviews = await responseReviews.json();
+
+      const responseData = responseJsonReviews._embedded.Reviews;
+
+      const loadedReviews: ReviewModel[] = [];
+
+      let weightedStarReviews: number = 0;
+
+      for (const key in responseData) {
+        loadedReviews.push({
+          id: responseData[key].id,
+          userEmail: responseData[key].userEmail,
+          date: responseData[key].date,
+          rating: responseData[key].rating,
+          book_id: responseData[key].bookId,
+          reviewDescription: responseData[key].reviewDescription,
+        });
+
+        weightedStarReviews = weightedStarReviews + responseData[key].rating;
+      }
+
+      if (loadedReviews) {
+        const round = (
+          Math.round((weightedStarReviews / loadedReviews.length) * 2) / 2
+        ).toFixed(1);
+        setTotalStars(Number(round));
+      }
+
+      setReviews(loadedReviews);
+      setIsLoadingReview(false);
+    }; // End of FetchBookReview function
+
+    fetchBookReviews().catch((error: unknown) => {
+      setIsLoading(false);
+      if (error instanceof Error) {
+        setHttpError(error.message);
+      } else {
+        setHttpError(String(error));
+      }
+    });
+  }, []);
+
+  if (isLoading || isLoadingReview) {
     return <SpinnerLoading />;
   }
 
@@ -84,6 +143,8 @@ export const BookCheckoutPage = () => {
           <CheckoutAndReviewBox book={book} mobile={false} />
         </div>
         <hr />
+        {/* Latest Reviews component */}
+        <LatestReviews reviews={reviews} bookId={book?.id} mobile={false} />
       </div>
       <div className="container d-lg-none mt-5">
         <div className="d-flex justify-content-center align-item-center">
@@ -104,6 +165,7 @@ export const BookCheckoutPage = () => {
         {/* Checkout and review component */}
         <CheckoutAndReviewBox book={book} mobile={true} />
         <hr />
+        <LatestReviews reviews={reviews} bookId={book?.id} mobile={true} />
       </div>
     </div>
   );
