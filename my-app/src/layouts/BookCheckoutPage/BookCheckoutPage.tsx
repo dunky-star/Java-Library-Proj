@@ -136,7 +136,8 @@ export const BookCheckoutPage = () => {
               <h2>{book?.title}</h2>
               <h5 className="text-primary">{book?.author}</h5>
               <p className="lead">{book?.description}</p>
-              <StarsReview rating={6} size={32} /> {/* Rating component */}
+              <StarsReview rating={totalStars} size={32} />{" "}
+              {/* Rating component */}
             </div>
           </div>
           {/* Checkout and review component */}
@@ -159,7 +160,8 @@ export const BookCheckoutPage = () => {
             <h2>{book?.title}</h2>
             <h5 className="text-primary">{book?.author}</h5>
             <p className="lead">{book?.description}</p>
-            <StarsReview rating={4} size={32} /> {/* Rating component */}
+            <StarsReview rating={totalStars} size={32} />{" "}
+            {/* Rating component */}
           </div>
         </div>
         {/* Checkout and review component */}
