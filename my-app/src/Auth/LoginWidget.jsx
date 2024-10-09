@@ -14,13 +14,15 @@ const LoginWidget = ({ config }) => {
     console.log("Sign in error: ", err);
   };
 
-  if (!authState) {
+  if (!authState || authState.isPending) {
     return <SpinnerLoading />;
   }
 
-  return authState.isAuthenticated() ? (
-    <Navigate to={{ pathname: "/" }} />
-  ) : (
+  if (authState.isAuthenticated) {
+    return <Navigate to="/" />;
+  }
+
+  return (
     <OktaSignInWidget config={config} onSuccess={onSuccess} onError={onError} />
   );
 };
